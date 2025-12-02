@@ -1,0 +1,875 @@
+{
+  "metadata": {
+    "name": "Silvaco TCAD Benchmark",
+    "version": "1.0",
+    "description": "Benchmark for evaluating LLM performance on Silvaco TCAD code generation",
+    "tiers": {
+      "tier1_mcq": "Multiple choice questions testing syntax and conceptual knowledge",
+      "tier2_completion": "Code completion tasks requiring filling in missing parts",
+      "tier3_generation": "Open-ended code generation from natural language descriptions"
+    },
+    "total_questions": 50
+  },
+  
+  "tier1_mcq": [
+    {
+      "id": "mcq_001",
+      "category": "analysis_types",
+      "difficulty": "easy",
+      "question": "Which SPICE analysis command is used for time-domain simulation?",
+      "options": {
+        "A": ".AC",
+        "B": ".DC",
+        "C": ".TRAN",
+        "D": ".OP"
+      },
+      "correct_answer": "C",
+      "explanation": ".TRAN performs transient (time-domain) analysis. .AC is for frequency response, .DC for DC sweep, and .OP for operating point."
+    },
+    {
+      "id": "mcq_002",
+      "category": "analysis_types",
+      "difficulty": "easy",
+      "question": "What does the .OP analysis command compute?",
+      "options": {
+        "A": "Frequency response of the circuit",
+        "B": "DC operating point of the circuit",
+        "C": "Transient response over time",
+        "D": "Noise characteristics"
+      },
+      "correct_answer": "B",
+      "explanation": ".OP computes the DC operating point, determining all node voltages and branch currents at DC steady state."
+    },
+    {
+      "id": "mcq_003",
+      "category": "syntax",
+      "difficulty": "easy",
+      "question": "What is the correct syntax for defining a MOSFET in SPICE?",
+      "options": {
+        "A": "M1 drain gate source bulk model W=10u L=1u",
+        "B": "MOSFET M1 drain gate source bulk model W=10u L=1u",
+        "C": "M1 model drain gate source bulk W=10u L=1u",
+        "D": "M drain gate source bulk M1 model W=10u L=1u"
+      },
+      "correct_answer": "A",
+      "explanation": "MOSFET syntax is: Mname drain gate source bulk modelname [parameters]. The name must start with 'M'."
+    },
+    {
+      "id": "mcq_004",
+      "category": "syntax",
+      "difficulty": "easy",
+      "question": "Which prefix represents micro (10^-6) in SPICE?",
+      "options": {
+        "A": "m",
+        "B": "u or U",
+        "C": "n",
+        "D": "p"
+      },
+      "correct_answer": "B",
+      "explanation": "In SPICE, 'u' or 'U' represents micro (10^-6). 'm' is milli (10^-3), 'n' is nano (10^-9), 'p' is pico (10^-12)."
+    },
+    {
+      "id": "mcq_005",
+      "category": "syntax",
+      "difficulty": "easy",
+      "question": "What character is used to denote a comment in SPICE netlists?",
+      "options": {
+        "A": "//",
+        "B": "#",
+        "C": "*",
+        "D": ";"
+      },
+      "correct_answer": "C",
+      "explanation": "In SPICE, lines beginning with '*' are treated as comments. Some simulators also accept ';' for inline comments."
+    },
+    {
+      "id": "mcq_006",
+      "category": "components",
+      "difficulty": "easy",
+      "question": "What is the correct syntax for a DC voltage source of 5V?",
+      "options": {
+        "A": "V1 node+ node- 5V",
+        "B": "V1 node+ node- DC 5",
+        "C": "V1 DC 5 node+ node-",
+        "D": "VSOURCE V1 node+ node- 5"
+      },
+      "correct_answer": "B",
+      "explanation": "Voltage source syntax is: Vname node+ node- DC value. The DC keyword specifies a DC source."
+    },
+    {
+      "id": "mcq_007",
+      "category": "components",
+      "difficulty": "medium",
+      "question": "In a PULSE voltage source definition 'PULSE(V1 V2 TD TR TF PW PER)', what does 'PW' represent?",
+      "options": {
+        "A": "Peak width",
+        "B": "Pulse width (duration at V2)",
+        "C": "Power",
+        "D": "Period width"
+      },
+      "correct_answer": "B",
+      "explanation": "PW is the pulse width - the duration the signal stays at V2 before falling. TD=delay, TR=rise time, TF=fall time, PER=period."
+    },
+    {
+      "id": "mcq_008",
+      "category": "analysis_types",
+      "difficulty": "medium",
+      "question": "Which analysis type is most appropriate for characterizing phase noise in an oscillator?",
+      "options": {
+        "A": ".AC",
+        "B": ".TRAN",
+        "C": ".HNOISE with OSCILLATOR option",
+        "D": ".DC"
+      },
+      "correct_answer": "C",
+      "explanation": ".HNOISE (harmonic noise) with the OSCILLATOR option is specifically designed for phase noise analysis in oscillators."
+    },
+    {
+      "id": "mcq_009",
+      "category": "analysis_types",
+      "difficulty": "medium",
+      "question": "What does the .HARMONIC analysis compute?",
+      "options": {
+        "A": "Linear frequency response",
+        "B": "Harmonic balance for nonlinear steady-state analysis",
+        "C": "Time-domain harmonics via FFT",
+        "D": "DC harmonic distortion"
+      },
+      "correct_answer": "B",
+      "explanation": ".HARMONIC performs harmonic balance analysis, which finds the periodic steady-state solution of nonlinear circuits directly in the frequency domain."
+    },
+    {
+      "id": "mcq_010",
+      "category": "parameters",
+      "difficulty": "medium",
+      "question": "In harmonic balance analysis, what does the 'tstab' parameter control?",
+      "options": {
+        "A": "Time step for integration",
+        "B": "Stabilization time before steady-state analysis begins",
+        "C": "Total simulation time",
+        "D": "Stability margin threshold"
+      },
+      "correct_answer": "B",
+      "explanation": "'tstab' specifies the initial transient stabilization time, allowing the circuit to reach a periodic steady state before harmonic analysis."
+    },
+    {
+      "id": "mcq_011",
+      "category": "parameters",
+      "difficulty": "medium",
+      "question": "What does the 'nharm' parameter specify in harmonic analysis?",
+      "options": {
+        "A": "Noise harmonics to include",
+        "B": "Number of harmonics to compute",
+        "C": "Harmonic noise floor",
+        "D": "Number of harmonic balance iterations"
+      },
+      "correct_answer": "B",
+      "explanation": "'nharm' specifies the maximum number of harmonics to include in the harmonic balance analysis."
+    },
+    {
+      "id": "mcq_012",
+      "category": "subcircuits",
+      "difficulty": "medium",
+      "question": "What is the correct way to end a subcircuit definition in SPICE?",
+      "options": {
+        "A": ".END",
+        "B": ".ENDS",
+        "C": ".ENDSUB",
+        "D": ".ENDS subcircuit_name"
+      },
+      "correct_answer": "D",
+      "explanation": "Subcircuits are ended with '.ENDS subcircuit_name' where the name matches the .SUBCKT definition. '.ENDS' alone also works in many simulators."
+    },
+    {
+      "id": "mcq_013",
+      "category": "subcircuits",
+      "difficulty": "medium",
+      "question": "How do you instantiate a subcircuit named 'OpAmp' with nodes in, out, vdd, gnd?",
+      "options": {
+        "A": "OpAmp X1 in out vdd gnd",
+        "B": "X1 in out vdd gnd OpAmp",
+        "C": ".CALL OpAmp(in, out, vdd, gnd)",
+        "D": "SUBCKT X1 OpAmp in out vdd gnd"
+      },
+      "correct_answer": "B",
+      "explanation": "Subcircuit instantiation uses: Xname node1 node2 ... subcircuit_name. The instance name must start with 'X'."
+    },
+    {
+      "id": "mcq_014",
+      "category": "options",
+      "difficulty": "medium",
+      "question": "What does '.OPTIONS NOMOD' do in a SPICE simulation?",
+      "options": {
+        "A": "Disables model cards from being used",
+        "B": "Suppresses model parameter printout in the output",
+        "C": "Uses no modifications to default parameters",
+        "D": "Disables Monte Carlo variations"
+      },
+      "correct_answer": "B",
+      "explanation": "NOMOD suppresses the printing of model parameter listings in the simulation output file."
+    },
+    {
+      "id": "mcq_015",
+      "category": "measurement",
+      "difficulty": "medium",
+      "question": "Which .MEASURE statement correctly extracts the rise delay from input to output?",
+      "options": {
+        "A": ".MEASURE TRAN delay RISE v(out) CROSS v(in)",
+        "B": ".MEASURE TRAN delay DELAY v(in) RISE=1 VAL=0.5 TARG=v(out) RISE=1 VAL=0.5",
+        "C": ".MEASURE TRAN delay WHEN v(out)=v(in)",
+        "D": ".MEASURE TRAN delay TIME v(out) RISE"
+      },
+      "correct_answer": "B",
+      "explanation": "The DELAY measurement requires a trigger (TRIG) and target (TARG) specification with crossing conditions."
+    },
+    {
+      "id": "mcq_016",
+      "category": "rf_analysis",
+      "difficulty": "hard",
+      "question": "In the .HNET (Harmonic Network) analysis, what does the 'NOISE' option enable?",
+      "options": {
+        "A": "Time-domain noise injection",
+        "B": "Small-signal noise figure calculation at each harmonic",
+        "C": "Phase noise analysis",
+        "D": "Thermal noise modeling in transistors"
+      },
+      "correct_answer": "B",
+      "explanation": ".HNET with NOISE computes the small-signal noise parameters including noise figure at the fundamental and harmonics."
+    },
+    {
+      "id": "mcq_017",
+      "category": "rf_analysis",
+      "difficulty": "hard",
+      "question": "What measurement is used to extract the 1dB compression point in Silvaco?",
+      "options": {
+        "A": ".MEASURE HARM P1DB",
+        "B": ".MEASURE MEAS COMPR1DB",
+        "C": ".MEASURE COMPRESSION 1DB",
+        "D": ".MEASURE RF CP1DB"
+      },
+      "correct_answer": "B",
+      "explanation": "COMPR1DB is the built-in measurement function for extracting the 1dB compression point from harmonic analysis data."
+    },
+    {
+      "id": "mcq_018",
+      "category": "rf_analysis",
+      "difficulty": "hard",
+      "question": "In IIP3 measurement, what does the 'EP' parameter in 'IP3 POUT_1 POUT_3 EP=-55' specify?",
+      "options": {
+        "A": "Error percentage",
+        "B": "Extrapolation point (input power for linear extrapolation)",
+        "C": "Endpoint of sweep",
+        "D": "Expected power level"
+      },
+      "correct_answer": "B",
+      "explanation": "EP specifies the extrapolation point - the input power level from which linear extrapolation is performed to calculate IP3."
+    },
+    {
+      "id": "mcq_019",
+      "category": "victory_process",
+      "difficulty": "easy",
+      "question": "In Victory Process, what command starts the process simulation?",
+      "options": {
+        "A": "start victoryp",
+        "B": "go victoryp",
+        "C": "run process",
+        "D": "begin victoryp"
+      },
+      "correct_answer": "B",
+      "explanation": "'go victoryp' initializes and starts the Victory Process simulation environment."
+    },
+    {
+      "id": "mcq_020",
+      "category": "victory_process",
+      "difficulty": "easy",
+      "question": "What Victory Process command adds material layers to the structure?",
+      "options": {
+        "A": "add",
+        "B": "layer",
+        "C": "deposit",
+        "D": "grow"
+      },
+      "correct_answer": "C",
+      "explanation": "'deposit' is the command used to add material layers in Victory Process simulations."
+    },
+    {
+      "id": "mcq_021",
+      "category": "victory_process",
+      "difficulty": "medium",
+      "question": "In Victory Process, what does 'deposit material=oxide thickness=0.5 conformal' do?",
+      "options": {
+        "A": "Deposits 0.5um oxide with uniform thickness following surface topology",
+        "B": "Deposits 0.5um oxide only on flat surfaces",
+        "C": "Deposits oxide until total thickness reaches 0.5um",
+        "D": "Deposits oxide conforming to crystal orientation"
+      },
+      "correct_answer": "A",
+      "explanation": "'conformal' deposition maintains uniform thickness following the existing surface topography, unlike 'max' which fills to a flat top."
+    },
+    {
+      "id": "mcq_022",
+      "category": "victory_process",
+      "difficulty": "medium",
+      "question": "What is the purpose of 'strip resist' in Victory Process?",
+      "options": {
+        "A": "Removes all resist material from the structure",
+        "B": "Strips the top layer of any material",
+        "C": "Removes the photoresist after etching",
+        "D": "Creates a stripped pattern in the resist"
+      },
+      "correct_answer": "C",
+      "explanation": "'strip resist' removes the photoresist layer after it has been used for masking during etch or implant steps."
+    },
+    {
+      "id": "mcq_023",
+      "category": "victory_process",
+      "difficulty": "medium",
+      "question": "In Victory Process, what does 'mask \"Gate\" reverse' do?",
+      "options": {
+        "A": "Creates a negative photoresist pattern from the Gate mask",
+        "B": "Mirrors the Gate mask horizontally",
+        "C": "Reverses the etch direction",
+        "D": "Inverts the mask polarity for dark-field exposure"
+      },
+      "correct_answer": "A",
+      "explanation": "'reverse' inverts the mask pattern, useful for negative resists or creating inverse patterns of the original mask layout."
+    },
+    {
+      "id": "mcq_024",
+      "category": "victory_process",
+      "difficulty": "hard",
+      "question": "What does 'init depth=5 Silicon GasHeight=10 separate.layers' initialize in Victory Process?",
+      "options": {
+        "A": "5um silicon substrate with 10um gas region, tracking each deposited layer separately",
+        "B": "5nm deep silicon with 10nm spacing between layers",
+        "C": "Silicon initialized to 5um depth with 10 separate material layers",
+        "D": "5um etch depth with 10um of gas phase chemistry"
+      },
+      "correct_answer": "A",
+      "explanation": "'init' sets up the substrate (5um silicon), gas phase region (10um for deposition/etch), and 'separate.layers' tracks each layer independently for analysis."
+    },
+    {
+      "id": "mcq_025",
+      "category": "convergence",
+      "difficulty": "hard",
+      "question": "What does increasing 'itl1' in .OPTIONS typically help with?",
+      "options": {
+        "A": "Transient analysis speed",
+        "B": "DC operating point convergence for difficult circuits",
+        "C": "AC analysis accuracy",
+        "D": "Memory usage optimization"
+      },
+      "correct_answer": "B",
+      "explanation": "'itl1' sets the DC iteration limit. Increasing it allows more iterations for the DC operating point, helping convergence in difficult circuits."
+    },
+    {
+      "id": "mcq_026",
+      "category": "convergence",
+      "difficulty": "hard",
+      "question": "What is the purpose of 'gmin' in SPICE convergence options?",
+      "options": {
+        "A": "Sets minimum gain for amplifiers",
+        "B": "Adds minimum conductance across semiconductor junctions to aid convergence",
+        "C": "Sets minimum gate capacitance",
+        "D": "Defines minimum grid spacing"
+      },
+      "correct_answer": "B",
+      "explanation": "'gmin' adds a small conductance in parallel with all pn junctions, preventing numerical singularities and aiding DC convergence."
+    },
+    {
+      "id": "mcq_027",
+      "category": "advanced_analysis",
+      "difficulty": "hard",
+      "question": "In radiation effects simulation with .RAD SEE, what does 'LET' parameter represent?",
+      "options": {
+        "A": "Light emission threshold",
+        "B": "Linear Energy Transfer (charge deposition rate)",
+        "C": "Leakage emission time",
+        "D": "Low energy threshold"
+      },
+      "correct_answer": "B",
+      "explanation": "LET (Linear Energy Transfer) represents the energy deposited per unit path length by an ionizing particle, determining charge generation."
+    },
+    {
+      "id": "mcq_028",
+      "category": "advanced_analysis",
+      "difficulty": "hard",
+      "question": "What does the .HOSCIL analysis determine?",
+      "options": {
+        "A": "Harmonic oscillation frequency and waveform for autonomous oscillators",
+        "B": "High-frequency oscillator stability",
+        "C": "Oscillation amplitude in driven circuits",
+        "D": "Harmonic content of input signals"
+      },
+      "correct_answer": "A",
+      "explanation": ".HOSCIL (Harmonic Oscillator) analysis finds the oscillation frequency and steady-state waveform of autonomous (self-oscillating) circuits."
+    },
+    {
+      "id": "mcq_029",
+      "category": "optimization",
+      "difficulty": "hard",
+      "question": "In the .MODIF OPTIMIZE statement, what does 'opt(min max initial)' specify?",
+      "options": {
+        "A": "Optimization algorithm parameters",
+        "B": "Parameter bounds and starting value for optimization",
+        "C": "Minimum, maximum, and initial number of iterations",
+        "D": "Output tolerance settings"
+      },
+      "correct_answer": "B",
+      "explanation": "'opt(min max initial)' defines the optimization range: minimum value, maximum value, and initial starting value for the parameter."
+    },
+    {
+      "id": "mcq_030",
+      "category": "special_elements",
+      "difficulty": "medium",
+      "question": "What does the 'M=' parameter typically represent in device instantiation?",
+      "options": {
+        "A": "Model name",
+        "B": "Multiplier (number of parallel instances)",
+        "C": "Maximum current",
+        "D": "Mesh refinement factor"
+      },
+      "correct_answer": "B",
+      "explanation": "M= is the multiplier parameter, specifying the number of devices in parallel, effectively scaling the device W and currents."
+    }
+  ],
+
+  "tier2_completion": [
+    {
+      "id": "comp_001",
+      "category": "transient_analysis",
+      "difficulty": "easy",
+      "description": "Complete the transient analysis command for a 10us simulation with 1ns timestep",
+      "code_template": ".TRAN _____ _____",
+      "expected_answer": ".TRAN 1n 10u",
+      "acceptable_variations": [".TRAN 1ns 10us", ".TRAN 1N 10U", ".TRAN 1e-9 10e-6"],
+      "scoring_criteria": {
+        "correct_order": "timestep before stop_time",
+        "valid_units": "proper time units used",
+        "reasonable_values": "timestep < stop_time"
+      }
+    },
+    {
+      "id": "comp_002",
+      "category": "mosfet_definition",
+      "difficulty": "easy",
+      "description": "Complete the NMOS transistor definition with W=5um, L=0.5um connected to drain=out, gate=in, source=GND, bulk=GND, model=nch",
+      "code_template": "M1 _____ _____ _____ _____ _____ W=_____ L=_____",
+      "expected_answer": "M1 out in GND GND nch W=5u L=0.5u",
+      "acceptable_variations": ["M1 out in GND GND nch W=5U L=0.5U", "M1 out in GND GND nch W=5e-6 L=0.5e-6"],
+      "scoring_criteria": {
+        "node_order": "drain gate source bulk",
+        "model_placement": "after bulk node",
+        "parameter_syntax": "W= and L= format"
+      }
+    },
+    {
+      "id": "comp_003",
+      "category": "pulse_source",
+      "difficulty": "medium",
+      "description": "Complete the pulse voltage source: 0V low, 3.3V high, 1ns delay, 100ps rise/fall, 5ns pulse width, 10ns period",
+      "code_template": "Vclk clk GND PULSE(_____ _____ _____ _____ _____ _____ _____)",
+      "expected_answer": "Vclk clk GND PULSE(0 3.3 1n 100p 100p 5n 10n)",
+      "acceptable_variations": ["PULSE(0 3.3 1ns 100ps 100ps 5ns 10ns)", "PULSE(0 3.3 1N 100P 100P 5N 10N)"],
+      "scoring_criteria": {
+        "parameter_order": "V1 V2 TD TR TF PW PER",
+        "value_correctness": "all 7 values present and correct",
+        "unit_consistency": "time units appropriate"
+      }
+    },
+    {
+      "id": "comp_004",
+      "category": "ac_analysis",
+      "difficulty": "medium",
+      "description": "Complete the AC analysis: decade sweep, 10 points per decade, from 1Hz to 1GHz",
+      "code_template": ".AC _____ _____ _____ _____",
+      "expected_answer": ".AC DEC 10 1 1G",
+      "acceptable_variations": [".AC DEC 10 1Hz 1GHz", ".AC DEC 10 1 1e9"],
+      "scoring_criteria": {
+        "sweep_type": "DEC for decade",
+        "points_per_decade": "reasonable number (5-100)",
+        "frequency_range": "start < stop, valid frequencies"
+      }
+    },
+    {
+      "id": "comp_005",
+      "category": "subcircuit",
+      "difficulty": "medium",
+      "description": "Complete the subcircuit definition for an inverter with input 'in', output 'out', supply 'vdd', ground 'gnd'",
+      "code_template": ".SUBCKT _____ _____ _____ _____ _____\nM1 out in vdd vdd pmos W=2u L=0.18u\nM2 out in gnd gnd nmos W=1u L=0.18u\n_____",
+      "expected_answer": ".SUBCKT inverter in out vdd gnd\nM1 out in vdd vdd pmos W=2u L=0.18u\nM2 out in gnd gnd nmos W=1u L=0.18u\n.ENDS inverter",
+      "acceptable_variations": [".ENDS", ".ENDS inverter"],
+      "scoring_criteria": {
+        "subckt_syntax": ".SUBCKT name nodes",
+        "ends_statement": ".ENDS with optional name",
+        "node_list": "all interface nodes listed"
+      }
+    },
+    {
+      "id": "comp_006",
+      "category": "harmonic_analysis",
+      "difficulty": "hard",
+      "description": "Complete the harmonic balance setup for 2.4GHz fundamental with 10 harmonics, shooting method, 1us stabilization",
+      "code_template": ".HARMONIC\n+ FUND=_____ nharm=_____\n+ method=_____\n+ tstab=_____\n+ waves",
+      "expected_answer": ".HARMONIC\n+ FUND=2.4GHz nharm=10\n+ method=shooting\n+ tstab=1u\n+ waves",
+      "acceptable_variations": ["FUND=2.4e9", "FUND=2400MHz", "tstab=1us"],
+      "scoring_criteria": {
+        "fundamental_freq": "2.4GHz in valid format",
+        "harmonics": "nharm=10",
+        "method": "shooting for time-domain approach",
+        "stabilization": "tstab with time value"
+      }
+    },
+    {
+      "id": "comp_007",
+      "category": "measure_statement",
+      "difficulty": "hard",
+      "description": "Complete the measure statement to find the delay from input rising edge (50%) to output falling edge (50%)",
+      "code_template": ".MEASURE TRAN prop_delay DELAY v(in) _____=1 VAL=_____ TARG=v(out) _____=1 VAL=_____",
+      "expected_answer": ".MEASURE TRAN prop_delay DELAY v(in) RISE=1 VAL=0.5 TARG=v(out) FALL=1 VAL=0.5",
+      "acceptable_variations": ["VAL='vdd/2'", "VAL=1.65 (for 3.3V supply)"],
+      "scoring_criteria": {
+        "trigger_condition": "RISE=1 for input",
+        "target_condition": "FALL=1 for output",
+        "threshold_values": "appropriate crossing values"
+      }
+    },
+    {
+      "id": "comp_008",
+      "category": "victory_process",
+      "difficulty": "medium",
+      "description": "Complete the Victory Process oxide deposition of 100nm conformal layer",
+      "code_template": "_____ material=_____ thickness=_____ _____",
+      "expected_answer": "deposit material=oxide thickness=0.1 conformal",
+      "acceptable_variations": ["deposit material=Oxide thickness=0.1 conformal", "deposit material=SiO2 thickness=0.1 conformal"],
+      "scoring_criteria": {
+        "command": "deposit",
+        "material_spec": "oxide or equivalent",
+        "thickness": "0.1 (in um) or 100n",
+        "deposition_type": "conformal"
+      }
+    },
+    {
+      "id": "comp_009",
+      "category": "victory_process",
+      "difficulty": "hard",
+      "description": "Complete the Victory Process sequence: apply mask 'POLY', etch polysilicon completely, remove resist",
+      "code_template": "_____ \"_____\"\n_____ material=_____ _____\n_____ _____",
+      "expected_answer": "mask \"POLY\"\netch material=polysilicon max\nstrip resist",
+      "acceptable_variations": ["mask \"POLY\"\netch material=poly max\nstrip resist"],
+      "scoring_criteria": {
+        "mask_syntax": "mask with quoted name",
+        "etch_command": "etch material=poly max",
+        "strip_command": "strip resist"
+      }
+    },
+    {
+      "id": "comp_010",
+      "category": "rf_measurement",
+      "difficulty": "hard",
+      "description": "Complete the IIP3 measurement extracting fundamental at 2.4GHz and IM3 at 2.5GHz with extrapolation at -50dBm",
+      "code_template": ".MEASURE HARM_SP POUT_1 FIND POUT AT=_____\n.MEASURE HARM_SP POUT_3 FIND POUT AT=_____\n.MEASURE MEAS IIP3_result _____ POUT_1 POUT_3 EP=_____",
+      "expected_answer": ".MEASURE HARM_SP POUT_1 FIND POUT AT=2400Meg\n.MEASURE HARM_SP POUT_3 FIND POUT AT=2500Meg\n.MEASURE MEAS IIP3_result IP3 POUT_1 POUT_3 EP=-50",
+      "acceptable_variations": ["AT=2.4G", "AT=2400MHz", "EP=-50dBm"],
+      "scoring_criteria": {
+        "fundamental_freq": "2.4GHz",
+        "im3_freq": "2.5GHz (correct IM3 product)",
+        "ip3_function": "IP3 keyword",
+        "extrapolation_point": "EP with dBm value"
+      }
+    }
+  ],
+
+  "tier3_generation": [
+    {
+      "id": "gen_001",
+      "category": "basic_circuit",
+      "difficulty": "easy",
+      "prompt": "Generate a SPICE netlist for a simple CMOS inverter with the following specifications:\n- PMOS: W=4um, L=0.18um, model name 'pmos'\n- NMOS: W=2um, L=0.18um, model name 'nmos'\n- Supply voltage: 1.8V\n- Input node: 'in', Output node: 'out'\n- Perform DC sweep of input from 0 to 1.8V in 0.01V steps",
+      "rubric": {
+        "circuit_topology": {
+          "weight": 25,
+          "criteria": "Correct PMOS/NMOS connection (PMOS source to VDD, NMOS source to GND, gates tied, drains tied)"
+        },
+        "device_parameters": {
+          "weight": 25,
+          "criteria": "Correct W, L values and model names for both transistors"
+        },
+        "voltage_source": {
+          "weight": 20,
+          "criteria": "1.8V DC supply correctly defined"
+        },
+        "analysis_command": {
+          "weight": 20,
+          "criteria": ".DC sweep from 0 to 1.8V with appropriate step"
+        },
+        "syntax_correctness": {
+          "weight": 10,
+          "criteria": "Valid SPICE syntax, proper .END statement"
+        }
+      },
+      "reference_solution": "* CMOS Inverter\nVdd vdd GND DC 1.8\nVin in GND DC 0\n\nM1 out in vdd vdd pmos W=4u L=0.18u\nM2 out in GND GND nmos W=2u L=0.18u\n\n.DC Vin 0 1.8 0.01\n\n.END"
+    },
+    {
+      "id": "gen_002",
+      "category": "basic_circuit",
+      "difficulty": "easy",
+      "prompt": "Generate a SPICE netlist for a voltage divider using two resistors:\n- R1 = 10kohm between VIN and VOUT\n- R2 = 10kohm between VOUT and ground\n- Input voltage: 5V DC\n- Calculate and display the output voltage using .OP analysis",
+      "rubric": {
+        "resistor_definition": {
+          "weight": 30,
+          "criteria": "Two resistors correctly defined with proper values (10k each)"
+        },
+        "node_connections": {
+          "weight": 25,
+          "criteria": "Correct series connection: VIN-R1-VOUT-R2-GND"
+        },
+        "voltage_source": {
+          "weight": 20,
+          "criteria": "5V DC source properly defined"
+        },
+        "analysis": {
+          "weight": 15,
+          "criteria": ".OP analysis included"
+        },
+        "syntax": {
+          "weight": 10,
+          "criteria": "Valid syntax and .END"
+        }
+      },
+      "reference_solution": "* Voltage Divider\nVin vin GND DC 5\n\nR1 vin vout 10k\nR2 vout GND 10k\n\n.OP\n\n.END"
+    },
+    {
+      "id": "gen_003",
+      "category": "oscillator",
+      "difficulty": "medium",
+      "prompt": "Generate a SPICE netlist for a 3-stage ring oscillator with the following specifications:\n- Each inverter stage uses PMOS (W=2u, L=0.5u) and NMOS (W=1u, L=0.5u)\n- Supply voltage: 3.3V\n- Include initial condition on one node (10mV) to start oscillation\n- Perform transient analysis for 100ns with 10ps resolution\n- Save the output voltage waveform",
+      "rubric": {
+        "ring_topology": {
+          "weight": 30,
+          "criteria": "Three inverter stages with feedback from output to input (odd number for oscillation)"
+        },
+        "device_sizing": {
+          "weight": 20,
+          "criteria": "Correct W/L for all PMOS and NMOS devices"
+        },
+        "initial_condition": {
+          "weight": 15,
+          "criteria": ".IC statement to initiate oscillation"
+        },
+        "transient_setup": {
+          "weight": 20,
+          "criteria": ".TRAN with appropriate timestep and duration"
+        },
+        "output_saving": {
+          "weight": 15,
+          "criteria": ".SAVE or .PROBE for output node"
+        }
+      },
+      "reference_solution": "* 3-Stage Ring Oscillator\nVdd vdd GND DC 3.3\n\n* Stage 1\nM1p n1 n3 vdd vdd pmos W=2u L=0.5u\nM1n n1 n3 GND GND nmos W=1u L=0.5u\n\n* Stage 2\nM2p n2 n1 vdd vdd pmos W=2u L=0.5u\nM2n n2 n1 GND GND nmos W=1u L=0.5u\n\n* Stage 3 (output feeds back to input)\nM3p n3 n2 vdd vdd pmos W=2u L=0.5u\nM3n n3 n2 GND GND nmos W=1u L=0.5u\n\n.IC V(n1)=0.01\n\n.TRAN 10p 100n\n.SAVE V(n1) V(n2) V(n3)\n\n.END"
+    },
+    {
+      "id": "gen_004",
+      "category": "amplifier",
+      "difficulty": "medium",
+      "prompt": "Generate a SPICE netlist for a common-source NMOS amplifier with:\n- NMOS transistor: W=10u, L=1u, model 'nch'\n- Drain resistor: 5kohm to VDD\n- Gate bias: 1V DC\n- VDD: 5V\n- AC input: 10mV amplitude at gate\n- Perform AC analysis from 1Hz to 100MHz, 10 points per decade\n- Include operating point analysis",
+      "rubric": {
+        "amplifier_topology": {
+          "weight": 25,
+          "criteria": "CS configuration with drain resistor load"
+        },
+        "biasing": {
+          "weight": 20,
+          "criteria": "Proper gate bias and supply voltage"
+        },
+        "ac_source": {
+          "weight": 15,
+          "criteria": "AC source with correct magnitude specification"
+        },
+        "analysis_commands": {
+          "weight": 25,
+          "criteria": ".AC and .OP analysis correctly specified"
+        },
+        "syntax_completeness": {
+          "weight": 15,
+          "criteria": "Complete valid netlist"
+        }
+      },
+      "reference_solution": "* Common Source Amplifier\nVdd vdd GND DC 5\nVg gate GND DC 1 AC 10m\n\nM1 drain gate GND GND nch W=10u L=1u\nRd vdd drain 5k\n\n.OP\n.AC DEC 10 1 100Meg\n\n.END"
+    },
+    {
+      "id": "gen_005",
+      "category": "switched_capacitor",
+      "difficulty": "hard",
+      "prompt": "Generate a SPICE netlist for a basic switched-capacitor sample-and-hold circuit:\n- Sampling capacitor: 1pF\n- NMOS switches: W=2u, L=0.24u, model 'nmos'\n- Two-phase non-overlapping clocks: ph1 and ph2\n- Clock frequency: 10MHz, 50% duty cycle, 1ns rise/fall\n- Supply: 2V, input signal: 1V DC + 100mV sine at 100kHz\n- Transient analysis for 2us with 1ns resolution",
+      "rubric": {
+        "switch_configuration": {
+          "weight": 25,
+          "criteria": "Proper switch topology for sample-and-hold operation"
+        },
+        "clock_generation": {
+          "weight": 25,
+          "criteria": "Two-phase clocks with correct timing (non-overlapping implied by 50% duty)"
+        },
+        "capacitor_and_switches": {
+          "weight": 20,
+          "criteria": "1pF capacitor, switches with correct dimensions"
+        },
+        "input_signal": {
+          "weight": 15,
+          "criteria": "DC offset + AC sine wave correctly specified"
+        },
+        "analysis": {
+          "weight": 15,
+          "criteria": "Transient analysis with appropriate parameters"
+        }
+      },
+      "reference_solution": "* Switched-Capacitor Sample and Hold\nVdd vdd GND DC 2\nVin in GND DC 1 SIN(1 0.1 100k)\nVph1 ph1 GND PULSE(0 2 0 1n 1n 50n 100n)\nVph2 ph2 GND PULSE(0 2 50n 1n 1n 50n 100n)\n\n* Sampling switch\nM1 in ph1 samp GND nmos W=2u L=0.24u\n\n* Hold capacitor\nC1 samp GND 1p\n\n* Output buffer switch\nM2 samp ph2 out GND nmos W=2u L=0.24u\nCout out GND 100f\n\n.TRAN 1n 2u\n\n.END"
+    },
+    {
+      "id": "gen_006",
+      "category": "rf_circuit",
+      "difficulty": "hard",
+      "prompt": "Generate a SPICE netlist setup for measuring S-parameters of an RF amplifier:\n- Use .HNET analysis for S-parameter extraction\n- Frequency range: 100MHz to 10GHz, 10 points per decade\n- Include 50-ohm source and load ports (Prf and Pout)\n- Enable noise analysis and stability circles\n- Fundamental frequency: 1GHz with 5 harmonics\n- The amplifier subcircuit X1 is already defined with nodes: in, out, vdd, gnd",
+      "rubric": {
+        "port_definition": {
+          "weight": 25,
+          "criteria": "50-ohm source and load ports correctly defined"
+        },
+        "hnet_setup": {
+          "weight": 30,
+          "criteria": ".HNET with correct frequency sweep parameters"
+        },
+        "analysis_options": {
+          "weight": 25,
+          "criteria": "NOISE, stability circles options included"
+        },
+        "harmonic_setup": {
+          "weight": 20,
+          "criteria": "Fundamental frequency and nharm specified"
+        }
+      },
+      "reference_solution": "* RF Amplifier S-Parameter Analysis\nVdd vdd GND DC 3.3\n\n* 50-ohm ports\nPrf in GND R=50 ACMAG=1 ACPHASE=0\nPout out GND R=50\n\n* Amplifier instance\nX1 in out vdd GND amplifier\n\n.HNET PRF POUT\n+ DEC 10 100Meg 10G\n+ FUND=1G\n+ nharm=5\n+ NOISE\n+ SOURCE_STAB_CIRCLES\n+ LOAD_STAB_CIRCLES\n+ waves\n\n.END"
+    },
+    {
+      "id": "gen_007",
+      "category": "victory_process",
+      "difficulty": "medium",
+      "prompt": "Generate a Victory Process script to create a basic MOS gate stack:\n1. Initialize 2um silicon substrate with 5um gas height\n2. Grow 10nm gate oxide (thermal oxidation)\n3. Deposit 200nm polysilicon\n4. Apply 'GATE' mask and etch polysilicon\n5. Strip photoresist\n6. Define polysilicon as 'Gate' electrode\n7. Save the structure",
+      "rubric": {
+        "initialization": {
+          "weight": 15,
+          "criteria": "Correct init command with depth and GasHeight"
+        },
+        "oxide_growth": {
+          "weight": 20,
+          "criteria": "Oxide deposition/growth with correct thickness (0.01um)"
+        },
+        "poly_deposition": {
+          "weight": 20,
+          "criteria": "Polysilicon deposit with correct thickness (0.2um)"
+        },
+        "patterning_sequence": {
+          "weight": 25,
+          "criteria": "Correct mask-etch-strip sequence"
+        },
+        "electrode_and_save": {
+          "weight": 20,
+          "criteria": "Electrode definition and save command"
+        }
+      },
+      "reference_solution": "go victoryp\n\ninit depth=2 silicon GasHeight=5\n\n# Gate oxide\ndeposit material=oxide thickness=0.01 max\n\n# Polysilicon gate\ndeposit material=polysilicon thickness=0.2 max\nmask \"GATE\"\netch material=polysilicon max\nstrip resist\nelectrodes \"Gate\" material=polysilicon\n\nsave name=\"gate_stack\"\n\nquit"
+    },
+    {
+      "id": "gen_008",
+      "category": "victory_process",
+      "difficulty": "hard",
+      "prompt": "Generate a Victory Process script for a simplified shallow trench isolation (STI) process:\n1. Initialize 5um silicon substrate, 10um gas height, separate layers\n2. Deposit 20nm pad oxide\n3. Deposit 100nm silicon nitride hard mask\n4. Apply 'ACTIVE' mask (reverse polarity for trench areas)\n5. Etch nitride and oxide where exposed\n6. Etch 300nm silicon trench\n7. Strip resist\n8. Deposit 500nm oxide (conformal fill)\n9. Save structure as 'STI_structure'",
+      "rubric": {
+        "initialization": {
+          "weight": 10,
+          "criteria": "init with separate.layers"
+        },
+        "pad_stack": {
+          "weight": 15,
+          "criteria": "Pad oxide and nitride with correct thicknesses"
+        },
+        "masking": {
+          "weight": 20,
+          "criteria": "Reverse mask for trench definition"
+        },
+        "etch_sequence": {
+          "weight": 25,
+          "criteria": "Sequential etch through nitride, oxide, into silicon"
+        },
+        "oxide_fill": {
+          "weight": 20,
+          "criteria": "Conformal oxide deposition for trench fill"
+        },
+        "save": {
+          "weight": 10,
+          "criteria": "Save with specified name"
+        }
+      },
+      "reference_solution": "go victoryp\n\ninit depth=5 silicon GasHeight=10 separate.layers\n\n# Pad oxide\ndeposit material=oxide thickness=0.02 max\n\n# Nitride hard mask\ndeposit material=nitride thickness=0.1 max\n\n# Define active areas (reverse = trench regions exposed)\nmask \"ACTIVE\" reverse\n\n# Etch through hard mask\netch material=nitride max\netch material=oxide max\n\n# Etch silicon trench\netch material=silicon thickness=0.3 max\nstrip resist\n\n# Oxide fill\ndeposit material=oxide thickness=0.5 conformal\n\nsave name=\"STI_structure\"\n\nquit"
+    },
+    {
+      "id": "gen_009",
+      "category": "optimization",
+      "difficulty": "hard",
+      "prompt": "Generate a SPICE netlist for optimizing a CMOS inverter's switching threshold:\n- Target switching threshold: 0.9V (VDD/2 for 1.8V supply)\n- Optimize PMOS width from 1u to 10u (initial 4u)\n- NMOS width fixed at 2u, both L=0.18u\n- Use DC sweep to find crossing point\n- Include .MEASURE to extract trip point where V(out) = V(in)\n- Set up .MODIF OPTIMIZE with target trip=0.9V",
+      "rubric": {
+        "circuit_setup": {
+          "weight": 20,
+          "criteria": "Correct inverter topology with parameterized PMOS width"
+        },
+        "dc_analysis": {
+          "weight": 15,
+          "criteria": "DC sweep of input voltage"
+        },
+        "measure_statement": {
+          "weight": 25,
+          "criteria": "CROSS measurement for trip point extraction"
+        },
+        "optimization_setup": {
+          "weight": 30,
+          "criteria": ".MODIF OPTIMIZE with opt() range and TARGET"
+        },
+        "syntax": {
+          "weight": 10,
+          "criteria": "Valid syntax"
+        }
+      },
+      "reference_solution": "* CMOS Inverter Threshold Optimization\n.PARAM wp=4u\n\nVdd vdd GND DC 1.8\nVin in GND DC 0.9\n\nM1 out in vdd vdd pmos W=wp L=0.18u\nM2 out in GND GND nmos W=2u L=0.18u\n\n.DC Vin 0 1.8 0.01\n\n.MEASURE DC trip CROSS V(out) VAL=V(in)\n\n.MODIF\n+ OPTIMIZE wp=opt(1u 10u 4u)\n+ TARGETS trip=0.9\n+ OPTIONS MEASOFF=0\n\n.END"
+    },
+    {
+      "id": "gen_010",
+      "category": "oscillator_analysis",
+      "difficulty": "hard",
+      "prompt": "Generate a SPICE setup for phase noise analysis of a crystal oscillator:\n- Use .HNOISE analysis with OSCILLATOR option\n- Crystal fundamental frequency: 10MHz\n- Analyze phase noise from 10Hz to 1MHz offset (relative frequency axis)\n- Use shooting method with 10ms stabilization time\n- Include 20 harmonics\n- Enable PhaseNoise output and waveform saving\n- Probe voltage at node 'osc_out'",
+      "rubric": {
+        "hnoise_command": {
+          "weight": 25,
+          "criteria": ".HNOISE with correct probe node"
+        },
+        "frequency_setup": {
+          "weight": 20,
+          "criteria": "Offset frequency range with relative axis (Ftype=REL)"
+        },
+        "oscillator_options": {
+          "weight": 25,
+          "criteria": "OSCILLATOR keyword, fund_osc frequency"
+        },
+        "method_and_timing": {
+          "weight": 20,
+          "criteria": "shooting method, tstab value"
+        },
+        "output_options": {
+          "weight": 10,
+          "criteria": "PhaseNoise and waves options"
+        }
+      },
+      "reference_solution": "* Crystal Oscillator Phase Noise Analysis\n\n.HNOISE V(osc_out)\n+ DEC 10 10Hz 1MegHz\n+ fund=10MHz\n+ nharm=20\n+ Ftype=REL\n+ Relharm=1\n+ Faxis=REL\n+ METHOD=SHOOTING\n+ tstab=10ms\n+ PhaseNoise\n+ OSCILLATOR\n+ waves\n+ annotate=3\n\n.END"
+    }
+  ]
+}
