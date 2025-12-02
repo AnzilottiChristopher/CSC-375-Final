@@ -22,6 +22,10 @@ sympy==1.14.0
 tokenizers==0.22.1
 torch==2.9.1
 tqdm==4.67.1
-transformers==4.57.1
+transformers==4.57.3
 typing_extensions==4.15.0
 urllib3==2.5.0
+# --- Qwen3 + LoRA stack ---
+peft>=0.13
+datasets>=2.19
+bitsandbytes>=0.43       # GPU-only; remove on CPU/Mac if it errors
