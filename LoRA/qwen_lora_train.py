@@ -1,12 +1,6 @@
 import os, json, torch, inspect
 from datasets import load_dataset
-from transformers import (
-    AutoTokenizer,
-    AutoModelForCausalLM,
-    DataCollatorForLanguageModeling,
-    TrainingArguments,
-    Trainer,
-)
+from transformers import AutoTokenizer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments, Trainer
 from peft import LoraConfig, get_peft_model
 
 model_name = "Qwen/Qwen3-0.6B"
