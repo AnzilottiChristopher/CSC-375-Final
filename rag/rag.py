@@ -1,32 +1,14 @@
-"""
-Usage:
-    # Initialize the RAG system (first time - builds index)
-    rag = SilvacoRAG(pdf_path="atlas_users1.pdf")
-    rag.build_index()
-    rag.save_index("silvaco_index")
-    
-    # Load existing index (subsequent runs)
-    rag = SilvacoRAG()
-    rag.load_index("silvaco_index")
-    
-    # Query for relevant context
-    context = rag.retrieve("How to define a MOSFET mesh in Atlas?", top_k=3)
-    
-    # Generate augmented prompt
-    augmented_prompt = rag.augment_prompt(original_prompt, top_k=3)
-"""
-
 import os
 import re
 import json
 import pickle
-from typing import List, Dict, Tuple, Optional
 from dataclasses import dataclass, asdict
 from sentence_transformers import SentenceTransformer
 import torch
 import fitz
 import numpy as np
 import faiss
+import sys
 
 # chunk of text from the manual
 @dataclass
@@ -306,18 +288,11 @@ class SilvacoRAG:
             return prompt + "\n\n" + context_block
 
 
-# =============================================================================
-# Quick Test
-# =============================================================================
-
-if __name__ == "__main__":
-    import sys
-    
+if __name__ == "__main__": 
     if len(sys.argv) < 2:
         print("Usage:")
         print("  python silvaco_rag.py build <pdf_path> [index_path]")
         print("  python silvaco_rag.py query <index_path> <query>")
-        print("  python silvaco_rag.py test")
         sys.exit(1)
         
     command = sys.argv[1]
@@ -343,27 +318,5 @@ if __name__ == "__main__":
             print(f"--- Result {i+1} (score: {r['score']:.3f}, p.{r['page_num']}) ---")
             print(r['text'][:500])
             print()
-            
-    elif command == "test":
-        print("Running simple test...")
-        
-        # Test with dummy data
-        class MockRAG:
-            def retrieve(self, query, top_k=3):
-                return [{
-                    'text': 'MESH statement defines the grid. Example:\nMESH SPACE.MULT=1.0\nX.MESH LOC=0 SPAC=0.1',
-                    'score': 0.85,
-                    'page_num': 45,
-                    'section': 'Chapter 2 Getting Started'
-                }]
-            def augment_prompt(self, prompt, top_k=3):
-                results = self.retrieve(prompt, top_k)
-                context = results[0]['text']
-                return f"Reference:\n{context}\n\n---\n\n{prompt}"
-                
-        rag = MockRAG()
-        prompt = "How do I define a mesh in Atlas?"
-        augmented = rag.augment_prompt(prompt)
-        print(f"Original: {prompt}")
-        print(f"\nAugmented:\n{augmented}")
-        print("\nTest passed!")
+    else:
+        print("Please use either build or query as a param!")

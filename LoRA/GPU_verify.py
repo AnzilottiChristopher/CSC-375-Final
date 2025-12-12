@@ -1,4 +1,3 @@
-# GPU_verify.py
 import torch
 
 print("torch version:", torch.__version__)

@@ -10,7 +10,7 @@ from transformers import (
 from peft import LoraConfig, get_peft_model
 
 model_name = "Qwen/Qwen3-0.6B"
-DATA_PATH = "./data/silvaco_dataset_train.json"
+DATA_PATH = "silvaco_dataset_train_cleaned.json"
 OUT_DIR = "checkpoints/qwen3-0.6b-lora"
 SEED = 42
 

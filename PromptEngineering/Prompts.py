@@ -6,16 +6,19 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
 class PromptEngineer:
-    def __init__(self, model_client=None, device=None, tokenizer=None):
+    def __init__(self, model_client=None, device=None, tokenizer=None, expert_role=None):
         self.model = model_client
         self.device = device
         self.tokenizer = tokenizer
+        self.expert_role = expert_role or (
+            "You are an expert at Silvaco TCAD code generation. "
+            "You have deep knowledge of SILVACO ATLAS commands, SPICE syntax, and semiconductor device simulation. "
+            "Only output valid TCAD code without explanations or comments unless specifically requested."
+        )
 
     def few_shot(self, user_input: str, examples: list, instruction: str = "") -> str:
-        prompt = ""
+        prompt = f"{self.expert_role}\n\n"
 
-        # for ex in examples:
-        #     print(ex["instruction"])
         if instruction:
             prompt += f"Instruction:\n{instruction}\n\n"
 
@@ -24,35 +27,38 @@ class PromptEngineer:
             prompt += f"Input: {ex['input']}\nOutput: {ex['output']}\n\n"
 
         prompt += "-------------------\n"
-        prompt += f"User Input: {user_input}\nOutput:"
+        prompt += f"Now complete this task:\nInput: {user_input}\nOutput:"
         return self._maybe_generate(prompt)
 
     def chain_of_thought(
-        self, user_input: str, instruction: str = "Think step-by-step"
+        self, user_input: str, instruction: str = "Think step-by-step about how to write the TCAD code"
     ) -> str:
-        instruction += " Think step-by-step with a maximum up to 3 sentences and do not repeat yourself"
-        # instruction += "Think step-by-step, but limit reasoning to 3 sentences maximum."
         prompt = (
-            f"{instruction}\n\n"
-            f"Question: {user_input}\n"  # "Let's think step by step:"
+            f"{self.expert_role}\n\n"
+            f"{instruction}. Break down the requirements, then provide the complete TCAD code solution.\n\n"
+            f"Task: {user_input}\n\n"
+            f"Step-by-step reasoning (max 3 steps):\n"
         )
         return self._maybe_generate(prompt)
 
     def output_format_control(self, user_input: str, format_description: str) -> str:
         prompt = (
-            "Follow the required output format strictly.\n"
+            f"{self.expert_role}\n\n"
+            f"Follow the required output format strictly.\n"
             f"Format: {format_description}\n\n"
-            f"User Input:\n{user_input}\n\n"
-            "Output (must match format exactly):"
+            f"Task:\n{user_input}\n\n"
+            f"CODE:"
         )
         return self._maybe_generate(prompt)
 
     def problem_decomposition(self, user_input: str) -> str:
         prompt = (
-            "Break the problem in smaller subproblems.\n"
-            "For each subproblem, explain its purpose and how to solve it.\n"
-            "After decomposing everything, provide the final full solution.\n\n"
-            f"Problem: {user_input}"
+            f"{self.expert_role}\n\n"
+            f"Break down this TCAD coding task into smaller subproblems.\n"
+            f"For each subproblem, identify the required SILVACO commands.\n"
+            f"Then provide the complete TCAD code solution.\n\n"
+            f"Problem: {user_input}\n\n"
+            f"Decomposition:"
         )
         return self._maybe_generate(prompt)
 
