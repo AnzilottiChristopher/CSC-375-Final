@@ -1,6 +1,12 @@
 import os, json, torch, inspect
 from datasets import load_dataset
-from transformers import AutoTokenizer, AutoModelForCausalLM, DataCollatorForLanguageModeling, TrainingArguments, Trainer
+from transformers import (
+    AutoTokenizer,
+    AutoModelForCausalLM,
+    DataCollatorForLanguageModeling,
+    TrainingArguments,
+    Trainer,
+)
 from peft import LoraConfig, get_peft_model
 
 model_name = "Qwen/Qwen3-0.6B"
@@ -13,7 +19,7 @@ TARGETS = ["q_proj", "k_proj", "v_proj", "o_proj"]
 LORA_R, LORA_A, LORA_D = 16, 32, 0.05
 
 EPOCHS, LR, WARMUP = 3, 1e-4, 0.05
-BATCH, ACCUM, MAXLEN = 4, 16, 2048   # effective batch ~64
+BATCH, ACCUM, MAXLEN = 4, 16, 2048  # effective batch ~64
 
 
 # Tokenizer & model
@@ -40,16 +46,17 @@ peft_cfg = LoraConfig(
 )
 model = get_peft_model(model, peft_cfg)
 
+
 # Data loading / preprocessing
 def format_example(ex):
-    return {
-        "text": ex["instruction"].strip() + "\n\n" + ex["output"].strip()
-    }
+    return {"text": ex["instruction"].strip() + "\n\n" + ex["output"].strip()}
+
 
 raw = load_dataset("json", data_files=DATA_PATH, split="train").shuffle(seed=SEED)
 splits = raw.train_test_split(test_size=0.2, seed=SEED)
 train_ds = splits["train"].map(format_example)
 val_ds = splits["test"].map(format_example)
+
 
 def tokenize(batch):
     return tok(
@@ -59,12 +66,9 @@ def tokenize(batch):
         padding="max_length",
     )
 
-train_tok = train_ds.map(
-    tokenize, batched=True, remove_columns=train_ds.column_names
-)
-val_tok = val_ds.map(
-    tokenize, batched=True, remove_columns=val_ds.column_names
-)
+
+train_tok = train_ds.map(tokenize, batched=True, remove_columns=train_ds.column_names)
+val_tok = val_ds.map(tokenize, batched=True, remove_columns=val_ds.column_names)
 
 collator = DataCollatorForLanguageModeling(tok, mlm=False)
 
@@ -127,5 +131,5 @@ trainer = Trainer(
 )
 
 trainer.train()
-trainer.save_model(OUT_DIR)   # saves adapters in this dir
+trainer.save_model(OUT_DIR)  # saves adapters in this dir
 tok.save_pretrained(OUT_DIR)
